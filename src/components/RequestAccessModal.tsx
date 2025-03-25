@@ -79,7 +79,7 @@ const RequestAccessModal = ({ isOpen, onClose }: RequestAccessModalProps) => {
         onClose();
         setIsSubmitted(false);
       }, 3000);
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -152,7 +152,7 @@ const RequestAccessModal = ({ isOpen, onClose }: RequestAccessModalProps) => {
                 <h2 className="text-2xl font-bold text-white mb-2">Request Access</h2>
                 <div className="h-1 w-16 bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#F59E0B] rounded-full"></div>
                 <p className="text-white/70 mt-4">
-                  Join the waitlist to get early access to Neusym's agent ecosystem.
+                  Join the waitlist to get early access to Neusym&apos;s agent ecosystem.
                 </p>
               </div>
               
@@ -265,7 +265,7 @@ const RequestAccessModal = ({ isOpen, onClose }: RequestAccessModalProps) => {
                     transition={{ delay: 0.6 }}
                     className="text-white/70"
                   >
-                    We've received your request. We'll be in touch soon.
+                    We&apos;ve received your request. We&apos;ll be in touch soon.
                   </motion.p>
                 </motion.div>
               )}
