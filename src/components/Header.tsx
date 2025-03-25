@@ -81,6 +81,26 @@ export default function Header({ navItems }: HeaderProps) {
             />
           </motion.a>
         ))}
+        
+        {/* Whitepaper Link */}
+        <motion.a 
+          href="https://neusym.com/whitepaper.pdf"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.3 }}
+          whileHover={{ 
+            scale: 1.05, 
+            color: "#10B981",
+            transition: { duration: 0.15 }
+          }}
+          className="relative text-white transition-colors duration-150 text-base sm:text-lg font-medium tracking-wide py-2 hover:text-[#10B981] nav-link"
+        >
+          Whitepaper
+          <motion.div 
+            className="absolute -bottom-1 left-0 h-[2px] w-0 bg-current transition-all duration-150"
+            whileHover={{ width: "100%" }}
+          />
+        </motion.a>
       </nav>
       
       <div className="flex items-center space-x-4">

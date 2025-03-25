@@ -172,6 +172,32 @@ export default function MobileMenu({
                   </motion.a>
                 ))}
                 
+                {/* Whitepaper Link for Mobile */}
+                <motion.a
+                  href="https://neusym.com/whitepaper.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: items.length * 0.05, duration: 0.3 }}
+                  style={{ color: "#10B981" }}
+                  className="text-2xl font-medium hover:opacity-80 py-4 border-b border-white/10 flex items-center justify-between transition-colors duration-150"
+                  whileHover={{ 
+                    scale: 1.03, 
+                    transition: { duration: 0.15 }
+                  }}
+                >
+                  Whitepaper
+                  <motion.span 
+                    initial={{ x: -10, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: items.length * 0.05 + 0.2 }}
+                    className="text-lg"
+                  >
+                    →
+                  </motion.span>
+                </motion.a>
+                
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
