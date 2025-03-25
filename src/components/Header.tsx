@@ -33,9 +33,11 @@ export default function Header({ navItems }: HeaderProps) {
           <Image
             src="/logoneu.png"
             alt="Neusym Logo"
-            width={48}
-            height={48}
-            className="h-10 sm:h-12 w-auto"
+            width={96}
+            height={96}
+            quality={100}
+            priority
+            className="h-10 sm:h-12 w-auto object-contain"
           />
         </motion.div>
         <motion.div 
