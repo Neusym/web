@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import MobileMenu from "@/components/MobileMenu";
+import RequestAccessModal from "@/components/RequestAccessModal";
 import Image from "next/image";
 
 interface HeaderProps {
@@ -11,6 +12,8 @@ interface HeaderProps {
 }
 
 export default function Header({ navItems }: HeaderProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <motion.header 
       initial={{ opacity: 0 }}
@@ -52,7 +55,7 @@ export default function Header({ navItems }: HeaderProps) {
         {navItems.map((item, i) => (
           <motion.a 
             key={item.name} 
-            href={item.href === "#" ? "https://neusym.com/docs" : item.href} 
+            href={item.href === "#" ? "https://docs.neusym.com" : item.href} 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 + i * 0.05, duration: 0.3 }}
@@ -81,22 +84,31 @@ export default function Header({ navItems }: HeaderProps) {
       </nav>
       
       <div className="flex items-center space-x-4">
-        <motion.div
+        <motion.button
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          whileHover={{ scale: 1.05 }}
-          className="hidden sm:block"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => setIsModalOpen(true)}
+          className="hidden sm:flex items-center justify-center px-5 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] rounded-md text-white font-medium hover:opacity-90 transition-all duration-200 shadow-lg shadow-purple-900/20"
         >
-          <Button 
-            variant="outline" 
-            className="border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-200 rounded-md py-5 px-6 text-sm sm:text-base"
-          >
-            Request Access
-          </Button>
-        </motion.div>
-        <MobileMenu items={navItems.map(item => item.name)} />
+          <span className="mr-1">✨</span> Request Access
+        </motion.button>
+        
+        <MobileMenu 
+          items={navItems.map(item => item.name)} 
+          onRequestAccessClick={() => setIsModalOpen(true)}
+          closeModal={() => setIsModalOpen(false)}
+          isModalOpen={isModalOpen}
+        />
       </div>
+      
+      {/* Request Access Modal */}
+      <RequestAccessModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </motion.header>
   );
 } 

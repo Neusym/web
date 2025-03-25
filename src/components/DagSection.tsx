@@ -50,7 +50,7 @@ export default function DagSection() {
               className="cursor-pointer relative group"
             >
               <motion.a 
-                href="https://neusym.com/docs" 
+                href="https://docs.neusym.com" 
                 className="flex items-center justify-center px-3 py-2 bg-[#60A5FA] text-black text-sm font-medium rounded-none hover:bg-[#80b5fa] transition-all duration-200"
               >
                 Documentation →

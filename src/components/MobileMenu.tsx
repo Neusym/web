@@ -1,17 +1,49 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Menu } from "lucide-react";
+import RequestAccessModal from "./RequestAccessModal";
 
 interface MobileMenuProps {
   items: string[];
+  onRequestAccessClick?: () => void;
+  closeModal?: () => void;
+  isModalOpen?: boolean;
 }
 
-export default function MobileMenu({ items }: MobileMenuProps) {
+export default function MobileMenu({ 
+  items, 
+  onRequestAccessClick,
+  closeModal,
+  isModalOpen = false
+}: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [localModalOpen, setLocalModalOpen] = useState(false);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  // Use either the prop or local state
+  const effectiveModalOpen = isModalOpen || localModalOpen;
+  
+  // Close modal when menu is opened
+  useEffect(() => {
+    if (isOpen && effectiveModalOpen) {
+      if (closeModal) {
+        closeModal();
+      }
+      setLocalModalOpen(false);
+    }
+  }, [isOpen, effectiveModalOpen, closeModal]);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+    // If modal is open, close it when opening menu
+    if (effectiveModalOpen) {
+      if (closeModal) {
+        closeModal();
+      }
+      setLocalModalOpen(false);
+    }
+  };
   
   // Helper function to determine the color for menu items
   const getItemColor = (item: string) => {
@@ -67,6 +99,18 @@ export default function MobileMenu({ items }: MobileMenuProps) {
         window.requestAnimationFrame(step);
       }, 300); // Small delay to let menu close animation finish
     }
+  };
+
+  const handleRequestAccess = () => {
+    toggleMenu(); // Close the menu
+    // Small delay to let the menu close animation finish
+    setTimeout(() => {
+      if (onRequestAccessClick) {
+        onRequestAccessClick(); // Use the prop if available
+      } else {
+        setLocalModalOpen(true); // Otherwise use local state
+      }
+    }, 300);
   };
 
   return (
@@ -134,8 +178,11 @@ export default function MobileMenu({ items }: MobileMenuProps) {
                   transition={{ delay: items.length * 0.05 + 0.2 }}
                   className="mt-10 pt-4"
                 >
-                  <button className="w-full border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-150 py-4 px-8 rounded-md text-lg">
-                    Request Access
+                  <button 
+                    onClick={handleRequestAccess}
+                    className="w-full bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white hover:opacity-90 transition-all duration-200 py-4 px-8 rounded-md text-lg font-medium flex items-center justify-center"
+                  >
+                    <span className="mr-2">✨</span> Request Access
                   </button>
                 </motion.div>
               </div>
@@ -160,6 +207,14 @@ export default function MobileMenu({ items }: MobileMenuProps) {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Only show local modal if we're not using the prop */}
+      {!onRequestAccessClick && (
+        <RequestAccessModal 
+          isOpen={localModalOpen}
+          onClose={() => setLocalModalOpen(false)}
+        />
+      )}
     </div>
   );
 } 

@@ -162,7 +162,7 @@ export default function Home() {
           color="#8B5CF6"
           icon={<GitMerge className="w-8 h-8 sm:w-10 sm:h-10 text-[#8B5CF6]" />}
           command={a2Command}
-          documentationLink="https://neusym.com/docs/a2/introduction/"
+          documentationLink="https://docs.neusym.com/a2/introduction/"
           githubLinks={[
             { label: "Framework", url: "https://github.com/Neusym/a2/tree/main/packages/a2" },
             { label: "SDK", url: "https://github.com/Neusym/a2/tree/main/packages/a2-sdk" }
@@ -180,7 +180,7 @@ export default function Home() {
           color="#EC4899"
           icon={<Database className="w-8 h-8 sm:w-10 sm:h-10 text-[#EC4899]" />}
           command={a3Command}
-          documentationLink="https://neusym.com/docs/a3/introduction/"
+          documentationLink="https://docs.neusym.com/a3/introduction/"
           githubLinks={[
             { label: "SDK", url: "https://github.com/Neusym/a2/tree/main/packages/a3-sdk" },
             { label: "Framework", url: "https://github.com/Neusym/a2/tree/main/packages/a3" }
@@ -198,7 +198,7 @@ export default function Home() {
           color="#F59E0B"
           icon={<Bot className="w-8 h-8 sm:w-10 sm:h-10 text-[#F59E0B]" />}
           command={agentbusCommand}
-          documentationLink="https://neusym.com/docs/agent-bus/introduction/"
+          documentationLink="https://docs.neusym.com/agent-bus/introduction/"
           githubLinks={[
             { label: "Framework", url: "https://github.com/Neusym/a2/tree/main/packages/agent-bus" }
           ]}

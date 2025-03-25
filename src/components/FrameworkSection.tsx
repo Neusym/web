@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { ReactNode, useCallback } from "react";
 
 interface FrameworkSectionProps {
   id: string;
@@ -73,14 +73,77 @@ export default function FrameworkSection({
     }
   };
 
+  // Centralized function to scroll section to center
+  const centerSection = useCallback(() => {
+    const sectionElement = document.getElementById(id);
+    if (sectionElement) {
+      // Calculate center positioning
+      const windowHeight = window.innerHeight;
+      const sectionHeight = sectionElement.getBoundingClientRect().height;
+      const centerOffset = (windowHeight - sectionHeight) / 2;
+      
+      // Get the section's position from the top of the page
+      const sectionTop = sectionElement.getBoundingClientRect().top + window.scrollY;
+      
+      // Calculate position to scroll to (accounting for centering)
+      const targetPosition = sectionTop - Math.max(0, centerOffset);
+      const startPosition = window.scrollY;
+      const distance = targetPosition - startPosition;
+      const duration = 1000; // Smooth scroll duration
+      
+      let start: number | null = null;
+      
+      function step(timestamp: number) {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
+        const percentage = Math.min(progress / duration, 1);
+        
+        // Easing function for smoother motion
+        const easeInOutQuad = (t: number) => {
+          return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        };
+        
+        window.scrollTo({
+          top: startPosition + distance * easeInOutQuad(percentage),
+          behavior: 'auto' // Using custom animation
+        });
+        
+        if (progress < duration) {
+          window.requestAnimationFrame(step);
+        }
+      }
+      
+      window.requestAnimationFrame(step);
+      return true;
+    }
+    return false;
+  }, [id]);
+  
+  // Scroll to center of section function with external link support
+  const scrollToCenter = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent the event from bubbling up to the section
+    const href = e.currentTarget.getAttribute('href');
+    
+    const centered = centerSection();
+    
+    if (href && href.startsWith('http')) {
+      // After the scroll animation completes, open the external link
+      setTimeout(() => {
+        window.open(href, '_blank');
+      }, centered ? 1000 : 0); // Open immediately if no centering occurred
+    }
+  }, [centerSection]);
+
   return (
     <motion.section 
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={simpleFadeIn}
-      className="pixel-border p-4 sm:p-8 bg-black relative overflow-hidden"
+      className="pixel-border p-4 sm:p-8 bg-black relative overflow-hidden cursor-pointer"
       id={id}
+      onClick={centerSection}
     >
       <div className="flex flex-col md:flex-row md:items-start">
         <motion.div
@@ -101,7 +164,8 @@ export default function FrameworkSection({
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className={`text-3xl sm:text-4xl md:text-5xl font-black mb-4 sm:mb-2 flex-1 text-[${color}]`}
+              className={`text-3xl sm:text-4xl md:text-5xl font-black mb-4 sm:mb-2 flex-1 text-[${color}] cursor-pointer hover:opacity-80 transition-opacity duration-200`}
+              onClick={centerSection}
             >
               <span>{title}</span>
             </motion.h2>
@@ -113,7 +177,9 @@ export default function FrameworkSection({
               >
                 <motion.a 
                   href={documentationLink} 
-                  className={`flex items-center justify-center px-3 py-2 bg-[${color}] text-black text-sm font-medium rounded-none hover:bg-[${color}] transition-all duration-200`}
+                  className="flex items-center justify-center px-3 py-2 text-black text-sm font-medium rounded-none hover:bg-opacity-90 transition-all duration-200"
+                  style={{ backgroundColor: color }}
+                  onClick={scrollToCenter}
                 >
                   Documentation →
                 </motion.a>
@@ -127,7 +193,10 @@ export default function FrameworkSection({
                 >
                   <motion.a 
                     href={link.url} 
-                    className={`flex items-center justify-center px-3 py-2 border border-[${color}] text-[${color}] text-sm font-medium rounded-none hover:bg-[${color}]/10 transition-all duration-200`}
+                    className="flex items-center justify-center px-3 py-2 border text-sm font-medium rounded-none hover:bg-opacity-10 transition-all duration-200"
+                    style={{ borderColor: color, color: color }}
+                    whileHover={{ backgroundColor: `${color}20` }}
+                    onClick={scrollToCenter}
                   >
                     <svg 
                       xmlns="http://www.w3.org/2000/svg" 
