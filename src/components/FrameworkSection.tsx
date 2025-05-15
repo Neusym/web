@@ -125,14 +125,14 @@ export default function FrameworkSection({
     e.stopPropagation(); // Prevent the event from bubbling up to the section
     const href = e.currentTarget.getAttribute('href');
     
-    const centered = centerSection();
-    
+    // For mobile devices, simply open the link in a new tab without scrolling
     if (href && href.startsWith('http')) {
-      // After the scroll animation completes, open the external link
-      setTimeout(() => {
-        window.open(href, '_blank');
-      }, centered ? 1000 : 0); // Open immediately if no centering occurred
+      window.open(href, '_blank');
+      return;
     }
+    
+    // For desktop, center the section
+    centerSection();
   }, [centerSection]);
 
   return (
@@ -173,11 +173,11 @@ export default function FrameworkSection({
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="cursor-pointer relative group"
+                className="cursor-pointer relative group min-w-[140px]"
               >
                 <motion.a 
                   href={documentationLink} 
-                  className="flex items-center justify-center px-3 py-2 text-black text-sm font-medium rounded-none hover:bg-opacity-90 transition-all duration-200"
+                  className="flex items-center justify-center px-4 py-3 sm:py-2 md:py-2 text-black text-sm sm:text-sm font-medium rounded-none hover:bg-opacity-90 transition-all duration-200 w-full"
                   style={{ backgroundColor: color }}
                   onClick={scrollToCenter}
                 >
@@ -189,11 +189,11 @@ export default function FrameworkSection({
                   key={index}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="cursor-pointer relative group"
+                  className="cursor-pointer relative group min-w-[140px]"
                 >
                   <motion.a 
                     href={link.url} 
-                    className="flex items-center justify-center px-3 py-2 border text-sm font-medium rounded-none hover:bg-opacity-10 transition-all duration-200"
+                    className="flex items-center justify-center px-4 py-3 sm:py-2 md:py-2 border text-sm sm:text-sm font-medium rounded-none hover:bg-opacity-10 transition-all duration-200 w-full"
                     style={{ borderColor: color, color: color }}
                     whileHover={{ backgroundColor: `${color}20` }}
                     onClick={scrollToCenter}

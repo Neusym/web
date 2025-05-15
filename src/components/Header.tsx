@@ -19,7 +19,7 @@ export default function Header({ navItems }: HeaderProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="sticky top-0 z-50 backdrop-blur-md bg-black/70 flex items-center justify-between p-5 sm:p-7 border-b border-white/10 shadow-lg shadow-black/20"
+      className="sticky top-0 z-[99999] backdrop-blur-md bg-black/70 flex items-center justify-between p-5 sm:p-7 border-b border-white/10 shadow-lg shadow-black/20"
     >
       <motion.div 
         initial={{ opacity: 0 }}
@@ -81,26 +81,6 @@ export default function Header({ navItems }: HeaderProps) {
             />
           </motion.a>
         ))}
-        
-        {/* Whitepaper Link */}
-        <motion.a 
-          href="https://neusym.com/whitepaper.pdf"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
-          whileHover={{ 
-            scale: 1.05, 
-            color: "#10B981",
-            transition: { duration: 0.15 }
-          }}
-          className="relative text-white transition-colors duration-150 text-base sm:text-lg font-medium tracking-wide py-2 hover:text-[#10B981] nav-link"
-        >
-          Whitepaper
-          <motion.div 
-            className="absolute -bottom-1 left-0 h-[2px] w-0 bg-current transition-all duration-150"
-            whileHover={{ width: "100%" }}
-          />
-        </motion.a>
       </nav>
       
       <div className="flex items-center space-x-4">
@@ -117,7 +97,7 @@ export default function Header({ navItems }: HeaderProps) {
         </motion.button>
         
         <MobileMenu 
-          items={navItems.map(item => item.name)} 
+          items={navItems}
           onRequestAccessClick={() => setIsModalOpen(true)}
           closeModal={() => setIsModalOpen(false)}
           isModalOpen={isModalOpen}

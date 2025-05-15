@@ -28,7 +28,7 @@ export default function Home() {
     { name: "a3", href: "#a3" },
     { name: "agentbus", href: "#agentbus" },
     { name: "About", href: "#about" },
-    { name: "Docs", href: "#" }
+    { name: "Docs", href: "https://deepwiki.com/Neusym/a2" }
   ];
 
   useEffect(() => {
